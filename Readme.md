@@ -188,8 +188,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 👨‍💻 Author
 
 <div align="center">
-<a href="https://x.com/Mokhtar_Derbazi">
-<img src="https://github.com/sh0z3n.png" width="100px" style="border-radius:50%"> </div> </a>
+<!-- <a href="https://x.com/Mokhtar_Derbazi">
+<img src="https://github.com/sh0z3n.png" width="100px" style="border-radius:50%"> </div> </a> -->
 <!-- <a href="https://www.linkedin.com/in/mokhtarderbazi"> @sh0z3n  -->
 <br></br>
 <p align="center">
