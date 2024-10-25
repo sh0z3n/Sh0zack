@@ -1,15 +1,4 @@
 #!/bin/bash
-
-
-
-if ! which curl >/dev/null 2>&1; then
-    if [ "$EUID" -ne 0 ]; then
-    echo "run as root" &&  exit 1 # just to ensure u get curl on ur machine
-    fi
-    echo "curl not found, installing..."
-    sudo apt-get install -y curl
-fi
-
 Y=$(tput setaf 3)
 M=$(tput setaf 5)
 R=$(tput sgr0)

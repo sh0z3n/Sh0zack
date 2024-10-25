@@ -1,4 +1,5 @@
 #!/bin/bash
+# les couleurs ya chi5
 PROMPT="sh0zack >"
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -13,7 +14,42 @@ cmd_ulach() {
     if ! command -v "$1" &> /dev/null; then
         echo -e "${BOLD}${RED}Error: $1 command not found. Please install it.${RESET}"
 #         echo -e $(apt search $1 ||  snap search $1) # if u wanna expose availbale ones
-        return 1
+        local sudochk=$(sudo -n true 2>&1)
+        if [ "$?" -ne 0 ]; then
+            echo -e "${RED}You need to have sudo privileges to install packages.${RESET}"
+            return 1
+        fi
+        if command -v apt &>/dev/null; then
+            PKG_MANAGER="apt"
+            INSTALL_CMD="apt install -y"
+        elif command -v dnf &>/dev/null; then
+            PKG_MANAGER="dnf"
+            INSTALL_CMD="dnf install -y"
+        elif command -v yum &>/dev/null; then
+            PKG_MANAGER="yum"
+            INSTALL_CMD="yum install -y"
+        elif command -v pacman &>/dev/null; then
+            PKG_MANAGER="pacman"
+            INSTALL_CMD="pacman -S --noconfirm"
+        else
+            echo -e "${RED}No supported package manager found.${RESET}"
+            return 1
+        fi
+
+        read -p "Do you want to install $1? (y/n): " install
+        if [ "$install" = "y" ]; then
+            echo -e "${GREEN}Installing $1...${RESET}"
+            if sudo $INSTALL_CMD "$1"; then
+                echo -e "${GREEN}Successfully installed $1${RESET}"
+                return 0
+            else
+                echo -e "${RED}Failed to install $1${RESET}"
+                return 1
+            fi
+        else
+            echo -e "${RED}Please install $1 to use this tool properly${RESET}"
+            return 1
+        fi
     fi
     return 0
 }
@@ -22,22 +58,124 @@ path() {
     COMPREPLY=($(compgen -f -- "${COMP_WORDS[COMP_CWORD]}"))
 }
 complete -F path read
+
+help() {
+    clear
+    echo -e "${MAGENTA}╔═════════════════════════════════════════════════════════════╗${RESET}"
+    echo -e "${MAGENTA}║            ${CYAN}${BOLD}Sh0zack Tool Suite - Help Guide           ${MAGENTA}║${RESET}"
+    echo -e "${MAGENTA}╚═════════════════════════════════════════════════════════════╝${RESET}"
+    echo
+    echo -e "${YELLOW}QUICK START GUIDE:${RESET}"
+    echo -e "${GREEN}1. Installation:${RESET}"
+    echo -e "   First time setup: ${CYAN}sudo ./scripts/install.sh${RESET}"
+    echo -e "   This will install all necessary dependencies and create required directories"
+    echo
+    echo -e "${YELLOW}COMMAND SHORTCUTS:${RESET}"
+    echo -e "${GREEN}Full Command    Shortcut    Description${RESET}"
+    echo -e "port scanner    p, port     Port scanning tools"
+    echo -e "dns scanner     d, dns      DNS enumeration"
+    echo -e "dir scanner     dir         Directory enumeration"
+    echo -e "brute force     b, brute    Password attacks"
+    echo -e "listener        l, listen   Reverse shell listener"
+    echo -e "privesc         priv        Privilege escalation checks"
+    echo -e "shell           s, shell    Reverse shell generator"
+    echo -e "decrypt         dec         Decryption tools"
+    echo -e "web scanner     w, web      Web vulnerability scanning"
+    echo -e "ai tool         ai          AI assistant"
+    echo -e "help            h, -h , ?       Show this help menu"
+    echo -e "exit            q, quit     Exit the tool"
+    echo
+    echo -e "${YELLOW}USAGE EXAMPLES:${RESET}"
+    echo
+    echo -e "${GREEN}1. Port Scanner:${RESET}"
+    echo -e "   ${CYAN}Example: port -t 192.168.1.1 -p 80,443${RESET}"
+    echo -e "   ${CYAN}Example: port -t example.com --all-ports${RESET}"
+    echo -e "   Available tools: nmap, rustscan, custom scanner"
+    echo
+    echo -e "${GREEN}2. DNS Scanner:${RESET}"
+    echo -e "   ${CYAN}Example: dns -d example.com -w wordlist.txt${RESET}"
+    echo -e "   Tools: gobuster dns, custom DNS tool"
+    echo
+    echo -e "${GREEN}3. Directory Scanner:${RESET}"
+    echo -e "   ${CYAN}Example: dir -u http://example.com -w wordlist.txt${RESET}"
+    echo -e "   ${CYAN}Example: dir -u http://example.com --recursive${RESET}"
+    echo -e "   Tools: gobuster dir, wfuzz, custom scanner"
+    echo
+    echo -e "${GREEN}4. Web Scanner:${RESET}"
+    echo -e "   ${CYAN}Example: web -u http://example.com --full-scan${RESET}"
+    echo -e "   ${CYAN}Example: web -u http://example.com --cms wordpress${RESET}"
+    echo -e "   Tools: nikto, OWASP ZAP, skipfish, wpscan, cmsmap"
+    echo
+    echo
+    echo -e "${YELLOW}COMMON SOLUTIONS:${RESET}"
+    echo
+    echo -e "${GREEN}1. Missing Dependencies:${RESET}"
+    echo -e "   Run: ${CYAN}sudo ./scripts/install.sh${RESET}"
+    echo
+    echo -e "${GREEN}2. Permission Denied:${RESET}"
+    echo -e "   Run tool with sudo: ${CYAN}sudo ./sh0zack.sh${RESET}"
+    echo
+    echo -e "${GREEN}3. API Key Issues:${RESET}"
+    echo -e "   Check: ${CYAN} the openai key ${RESET}"
+    echo -e "   Permissions: ${CYAN}./tools/ai.sh file ${RESET}"
+    echo
+    echo -e "${GREEN}4. Wordlist Not Found:${RESET}"
+    echo -e "   Default lists in: ${CYAN}./sh0zack/tools${RESET}"
+    echo -e "   Download more: ${CYAN}./scripts/get-wordlists.sh${RESET}"
+    echo
+    echo -e "${YELLOW}TOOL LOCATIONS:${RESET}"
+    echo -e "Main Script:     ${CYAN}./sh0zack.sh${RESET}"
+    echo -e "Tools Directory: ${CYAN}./tools/${RESET}"
+    echo -e "Wordlists:       ${CYAN}./scripts/wordlists/${RESET}"
+    echo -e "Payloads:         ${CYAN}./payloads/${RESET}"
+    echo -e "Scripts:         ${CYAN}./scripts/${RESET}"
+    echo
+    echo
+    echo -e "${YELLOW}OUTPUT FORMATS:${RESET}"
+    echo -e "- Text files (.txt)"
+    echo -e "- HTML reports"
+    echo -e "- JSON format"
+    echo -e "- XML output"
+    echo
+    echo -e "${YELLOW}PERFORMANCE TIPS:${RESET}"
+    echo -e "1. Use threaded scans: ${CYAN}-t <number>${RESET}"
+    echo -e "3. Target specific ports: ${CYAN}-p <ports>${RESET}"
+    echo -e "4. Use custom wordlists for faster scans"
+    echo
+    echo -e "${YELLOW}SAFETY NOTES:${RESET}"
+    echo -e "- Always have permission to scan targets"
+    echo -e "- Use --delay option for rate limiting"
+    echo -e "- Check local laws and regulations & use vpn if needed"
+    echo -e "- Backup important results"
+    echo
+    echo
+    echo -e "${YELLOW}SUPPORT:${RESET}"
+    echo -e "Github:     ${CYAN}https://github.com/sh0z3n/Sh0zack ${RESET}"
+    echo -e "Issues:     ${CYAN}https://github.com/sh0z3n/Sh0zack/issues ${RESET}"
+    echo -e "Wiki:       ${CYAN}https://github.com/sh0z3n/Sh0zack/wiki ${RESET}"
+    echo
+    echo -e "${YELLOW}Note :${RESET}"
+    echo -e "${RED}Rest of tools like xss , sqli detection and waf bypass will be comitted soon \n i really appreciate forking and submiting pull requests to suggest some modificaitons (most will be approved within a day)${RESET}"
+    echo -e "${YELLOW}Press Enter to return to main menu${RESET}"
+    read
+}
+
 display_main_menu() {
     clear
     echo -e "${MAGENTA}╔══════════════════════════════════╗${RESET}"
     echo -e "${MAGENTA}║         ${CYAN}${BOLD}Sh0zack Tool Suite       ${MAGENTA}║${RESET}"
     echo -e "${MAGENTA}╚══════════════════════════════════╝${RESET}"
     echo ""
-    echo -e "${YELLOW}1. ${GREEN}${BOLD} Port Scanner${RESET}"
-    echo -e "${YELLOW}2. ${GREEN}${BOLD} DNS Scanner${RESET}"
-    echo -e "${YELLOW}3. ${GREEN}${BOLD} Directory Scanner${RESET}"
-    echo -e "${YELLOW}4. ${GREEN}${BOLD} Brute Force${RESET}"
-    echo -e "${YELLOW}5. ${GREEN}${BOLD} Listener${RESET}"
+    echo -e "${YELLOW}1. ${GREEN}${BOLD} Port Scanning${RESET}"
+    echo -e "${YELLOW}2. ${GREEN}${BOLD} DNS Enumeration${RESET}"
+    echo -e "${YELLOW}3. ${GREEN}${BOLD} Directory Fuzzer${RESET}"
+    echo -e "${YELLOW}4. ${GREEN}${BOLD} Brute Force attack${RESET}"
+    echo -e "${YELLOW}5. ${GREEN}${BOLD} Listener Setter${RESET}"
     echo -e "${YELLOW}6. ${GREEN}${BOLD} Privilege Escalation Check${RESET}"
     echo -e "${YELLOW}7. ${GREEN}${BOLD} Shell Generator${RESET}"
     echo -e "${YELLOW}8. ${GREEN}${BOLD} Decrypting tools ${RESET}"
      echo -e "${YELLOW}9. ${GREEN}${BOLD} Web Scanner${RESET} "
-    echo -e "${YELLOW}10. ${GREEN}${BOLD} Ai Tool ${RESET} "
+    echo -e "${YELLOW}10. ${GREEN}${BOLD}Ai Chat ${RESET} "
     echo -e "${YELLOW}11 ${RED}${BOLD} Exit${RESET}"
     echo ""
 }
@@ -90,8 +228,8 @@ run_dns_scanner() {
                 if [ "$EUID" -ne 0 ]; then
                 echo "run as root" &&  exit 1 # just to ensure u get curl on ur machine
                 fi
-                echo "curl not found, installing..."
-                sudo apt-get install -y curl
+                #echo "curl not found, installing..."
+                #sudo apt-get install -y curl
             fi
             echo -e "${YELLOW}Default wordlist not found. Downloading...${RESET}"
             curl -s "https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/subdomains-top1million-5000.txt" -o "$default_wordlist"
@@ -167,10 +305,10 @@ run_dir_scanner() {
                 if [ "$EUID" -ne 0 ]; then
                     echo -e "${RED}Run as root${RESET}" && exit 1
                 fi
-                echo -e "${YELLOW}curl not found, installing...${RESET}"
-                sudo apt-get install -y curl
+                #echo -e "${YELLOW}curl not found, installing...${RESET}"
+                #sudo apt-get install -y curl
             fi
-            echo -e "${YELLOW}Default wordlist not found. Downloading...${RESET}"
+            echo -e "${YELLOW}Default worsudo apt-getdlist not found. Downloading...${RESET}"
             curl -s "https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/common.txt" -o "$dw"
             if [ $? -ne 0 ]; then
                 echo -e "${RED}Failed to download default wordlist. Please provide a wordlist you have locally.${RESET}"
@@ -422,6 +560,7 @@ while true; do
     read -p " " choice
 
     case $choice in
+        0|h|-h|help|?|--help|-help) help ;;
         1|port) run_port_scanner ;;
         2|dns) run_dns_scanner ;;
         3|dir) run_dir_scanner ;;
@@ -432,7 +571,7 @@ while true; do
         8|cron) run_decrypte ;;
         9|web) run_web_scanner;;
 	10|Ai) run_AI;;
-        11|exit|quit) echo -e "${RED}Exiting Shozack !!!${RESET}"; exit 0 ;;
+        11|exit|quit|q|:wq) echo -e "${RED}Exiting Shozack !!!${RESET}"; exit 0 ;;
         *) echo -e "${RED}Invalid option. Repeat your choice.${RESET}" ;;
     esac
 

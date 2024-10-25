@@ -7,17 +7,17 @@
   <b>Sh0zack</b>  : Advanced Penetration Testing Framework | Powered by Bash <br>
   
   Supports  <b><i> THM & HTB Machines, CTFs, and Real-World Pentesting</i></b><br>
-   <br>
-  <img alt="GitHub License" src="https://img.shields.io/github/license/dev-Mokhtar/Sh0zack?style=for-the-badge&labelColor=blue&color=violet">
-  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/dev-Mokhtar/Sh0zack?style=for-the-badge&labelColor=blue&color=violet">
+  <br>
+  [![GitHub Forks](https://img.shields.io/github/forks/sh0z3n/Sh0zack?style=for-the-badge&labelColor=blue&color=violet&logo=github)](https://github.com/sh0z3n/Sh0zack/fork)
+  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/sh0z3n/Sh0zack?style=for-the-badge&labelColor=blue&color=violet">
   <img alt="Static Badge" src="https://img.shields.io/badge/Tested--on-Linux-violet?style=for-the-badge&logo=linux&logoColor=black&labelColor=blue">
   <img alt="Static Badge" src="https://img.shields.io/badge/Bash-violet?style=for-the-badge&logo=gnubash&logoColor=black&labelColor=blue">
   <p></p>
-    <a href="https://github.com/dev-Mokhtar/Sh0zack?tab=readme-ov-file#installation">Install</a>
+    <a href="https://github.com/sh0z3n/Sh0zack?tab=readme-ov-file#installation">Install</a>
   <span> • </span>
-       	<a href="https://github.com/dev-Mokhtar/Sh0zack?tab=readme-ov-file#documentation">Documentation</a>
+       	<a href="https://github.com/sh0z3n/Sh0zack?tab=readme-ov-file#documentation">Documentation</a>
   <span> • </span>
-	<a href="https://github.com/dev-Mokhtar/Sh0zack?tab=readme-ov-file#usage">Usage</a>
+	<a href="https://github.com/sh0z3n/Sh0zack?tab=readme-ov-file#usage">Usage</a>
   <p></p>
 </div>
 
@@ -132,7 +132,15 @@ cd Sh0zack
 ./sh0zack.sh
 ```
 
-* <h3> Note : </h3> You will have some tools like curl or nmap , so as wordlists downloaded through the usage of this tool , so check if u need root access
+### Tip : 
+for internal tools installation  use :
+``` bash 
+chmod +x/scripts/install.sh && ./install.sh 
+```
+for wordlists generation : 
+``` bash 
+chmod +x/scripts/get-wordlists.sh && ./get-wordlists.sh 
+```
 
 ## 🚀 Features
 
@@ -146,6 +154,15 @@ cd Sh0zack
 - 🔒 **Built-in security measures** to prevent abuse
 
 <br>
+
+## 🤝 Contributing 
+
+We invite you to contribute to **Sh0zack** by adding new modules, improving code logic, or creating odd scripts. 
+
+- Fork the repository and submit a pull request after working on your branch. Most pull requests will be reviewed and approved within ```24``` **hours** ! <br></br>
+<div align="center">
+  <img alt="New Badge" src="https://img.shields.io/badge/Contributions-Welcome-violet?style=for-the-badge&labelColor=blue&color=violet">
+</div>
 
 ## 📊 Some Meaning-less Statistics
 <p align="center">
@@ -164,7 +181,6 @@ cd Sh0zack
  </picture>
 </a>
 
-
 <!-- ## 📜 License
 This project is licensed under the MIT License - see the LICENSE file for details. -->
 <br> </br>
@@ -172,15 +188,15 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 👨‍💻 Author
 
 <div align="center">
-<div style="border-radius:50%>
-<img src="https://github.com/sh0z3n.png" width="100px" style="border-radius:50%"> </div> <center>
+<a href="https://x.com/Mokhtar_Derbazi">
+<img src="https://github.com/sh0z3n.png" width="100px" style="border-radius:50%"> </div> </a>
 <!-- <a href="https://www.linkedin.com/in/mokhtarderbazi"> @sh0z3n  -->
 <br></br>
 <p align="center">
-  <a href="https://www.linkedin.com/in/mokhtarderbazi/">
+  <a href="https://www.linkedin.com/in/mokhtar-derbazi/">
     <img src="https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin" alt="LinkedIn">
   </a>
-  <a href="https://twitter.com/mokhtarderbazi">
+  <a href="https://x.com/Mokhtar_Derbazi">
     <img src="https://img.shields.io/badge/Twitter-Follow-blue?style=for-the-badge&logo=twitter" alt="Twitter">
   </a>
 </p>
