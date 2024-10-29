@@ -1,5 +1,5 @@
 #!/bin/bash
-# les couleurs ya chi5
+# ansi colors variations just to enhance the experience 
 PROMPT="sh0zack >"
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -13,10 +13,10 @@ NORMAL='\033[0m'
 cmd_ulach() {
     if ! command -v "$1" &> /dev/null; then
         echo -e "${BOLD}${RED}Error: $1 command not found. Please install it.${RESET}"
-#         echo -e $(apt search $1 ||  snap search $1) # if u wanna expose availbale ones
+# echo -e $(apt search $1 ||  snap search $1) # if u wanna expose availbale ones ( removed just to ensure u don't overwhelme urself)
         local sudochk=$(sudo -n true 2>&1)
         if [ "$?" -ne 0 ]; then
-            echo -e "${RED}You need to have sudo privileges to install packages.${RESET}"
+            echo -e "${RED}You need to have sudo privileges to install packages !!!.${RESET}"
             return 1
         fi
         if command -v apt &>/dev/null; then
@@ -189,6 +189,19 @@ run_port_scanner() {
     read -p "Enter your choice: " tool_choice
 
     read -p "Enter target: " target
+
+        if ! [[ "$target" =~ ^[a-zA-Z0-9.-]+$ ]]; then
+        echo -e "${RED}Invalid target format.${RESET}"
+        return 1
+    fi
+     if [[ -z "$target" ]]; then
+        echo -e "${RED}Target cannot be empty.${RESET}"
+        return 1
+    fi
+
+    
+
+if [[ -n "$tool_choice" && "$tool_choice" =~ ^[0-9]+$ ]]; then
     if [ "$tool_choice" -eq 1 ]; then
         cmd_ulach "nmap" || return
         echo -e "${BLUE}Example Nmap usage: nmap -sV -p 1-65535 $target${RESET}"
@@ -206,6 +219,9 @@ run_port_scanner() {
     else
         echo -e "${RED}Invalid option.${RESET}"
     fi
+    else
+    echo -e "${RED}Use one of the DAMN Numbers to choose \n${YELLOW}Don't be this DUMB ! ${RESET}" # don't be this dumb to enter a string
+fi
 }
 run_dns_scanner() {
     echo -e "${YELLOW}DNS Scanner${RESET}"
@@ -228,8 +244,8 @@ run_dns_scanner() {
                 if [ "$EUID" -ne 0 ]; then
                 echo "run as root" &&  exit 1 # just to ensure u get curl on ur machine
                 fi
-                #echo "curl not found, installing..."
-                #sudo apt-get install -y curl
+                #echo "curl not found, installing..." # this part is removed , thanks to somone at reddit who pointed it out 
+                #sudo apt-get install -y curl 
             fi
             echo -e "${YELLOW}Default wordlist not found. Downloading...${RESET}"
             curl -s "https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/subdomains-top1million-5000.txt" -o "$default_wordlist"
@@ -375,7 +391,6 @@ run_brute_force() {
     read -p "Enter service (e.g., ssh, ftp): " service
     read -p "Enter port (optional): " port
     read -e -p "Enter path to output file (optional): " output_file
-
     if [ "$tool_choice" -eq 1 ]; then
         cmd_ulach "hydra" || return;
         echo -e "${BLUE}Example Hydra usage: hydra -L $user_wordlist -P $pass_wordlist -t $threads $service://$target${RESET}"
@@ -386,6 +401,7 @@ run_brute_force() {
     else
         echo -e "${RED}Invalid option.${RESET}"
     fi
+
 }
 
 run_listener() {
@@ -472,7 +488,7 @@ run_decrypte() {
     case $decrypt_choice in
         1)
             read -p "Enter Base64 string to decrypt: " base64_input
-            cmd_ulach "bas64" || return;
+            cmd_ulach "base64" || return;
             echo -n "$base64_input" | base64 -d
             ;;
         2)
@@ -560,10 +576,10 @@ while true; do
     read -p " " choice
 
     case $choice in
-        0|h|-h|help|?|--help|-help) help ;;
-        1|port) run_port_scanner ;;
+        0|h|-h|help|--help|-help) help ;;
+        1|port|scan) run_port_scanner ;;
         2|dns) run_dns_scanner ;;
-        3|dir) run_dir_scanner ;;
+        3|dir|fuzz) run_dir_scanner ;;
         4|brute) run_brute_force ;;
         5|listen) run_listener ;;
         6|privesc) run_privesc_check ;;
@@ -576,5 +592,5 @@ while true; do
     esac
 
     echo
-    read -p "Press enter to continue..."
+    read -p "Press Enter to continue..."
 done

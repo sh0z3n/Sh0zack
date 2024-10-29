@@ -21,8 +21,9 @@ TOOLS=(
     "xargs"
     "jq"
     "python3-pip"
+    "fold"
     "bash"
-    "echo" #exhausted to complete other tools , in case you had a installation err , go to reddit or stackoverflow am done with this XD
+    "base64" #exhausted to complete other tools , in case you had a installation err , go to reddit or stackoverflow am done with this XD
 )
 
 # Python packages
